@@ -8,6 +8,7 @@ import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
 import { ExpensesModule } from './expenses/expenses.module';
 import { Expense } from './expenses/expense.entity';
+import { MailModule } from './mail/mail.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const cookieSession = require('cookie-session');
 
@@ -28,6 +29,7 @@ const cookieSession = require('cookie-session');
     }),
     UsersModule,
     ExpensesModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [
