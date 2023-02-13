@@ -1,5 +1,9 @@
 .vscode
 
+# This is just a coding challenge, so I will commit the .env variables
+# .env.development
+# .env.test
+
 # compiled output
 /dist
 /node_modules
