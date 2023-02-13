@@ -8,12 +8,15 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { AuthGuard } from '../guards/auth.guard';
 import { CurrentUser } from '../users/decorators/current-user.decorator';
 import { User } from '../users/user.entity';
 import { CreateExpenseDto } from './dtos/create-expense.dto';
+import { ExpenseDto } from './dtos/expense.dto';
 import { ExpensesService } from './expenses.service';
 
+@Serialize(ExpenseDto)
 @Controller('expenses')
 export class ExpensesController {
   constructor(private readonly expensesService: ExpensesService) {}
