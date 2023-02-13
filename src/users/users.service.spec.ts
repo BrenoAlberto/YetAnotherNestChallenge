@@ -17,6 +17,11 @@ const userRepositoryMockFactory: () => MockType<Repository<User>> = jest.fn(
 describe('UsersService', () => {
   let service: UsersService;
   let repositoryMock: MockType<Repository<User>>;
+  const mockUser = {
+    id: 1,
+    email: 'random@email.com',
+    password: 'randomPassword',
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -38,29 +43,25 @@ describe('UsersService', () => {
   });
 
   it('Should successfully create an user', async () => {
-    const mockUser = { email: 'random@email.com' };
-    const user = await service.create(mockUser.email, 'password');
+    const user = await service.create(mockUser.email, mockUser.password);
     expect(user.email).toEqual(mockUser.email);
   });
 
   it('Should successfully find an user', async () => {
-    const mockUserId = 1;
-    repositoryMock.findOne.mockReturnValueOnce({ id: mockUserId });
-    const user = await service.findOne(mockUserId);
-    expect(user.id).toEqual(mockUserId);
+    repositoryMock.findOne.mockReturnValueOnce({ id: mockUser.id });
+    const user = await service.findOne(mockUser.id);
+    expect(user.id).toEqual(mockUser.id);
   });
 
   it('Should return null if user is not found', async () => {
-    const mockUserId = 1;
     repositoryMock.findOne.mockReturnValueOnce(null);
-    const user = await service.findOne(mockUserId);
+    const user = await service.findOne(mockUser.id);
     expect(user).toBeNull();
   });
 
   it('Should successfully find an user by email', async () => {
-    const mockUserEmail = 'random@email.com';
-    repositoryMock.find.mockReturnValueOnce([{ email: mockUserEmail }]);
-    const user = await service.find(mockUserEmail);
-    expect(user[0].email).toEqual(mockUserEmail);
+    repositoryMock.find.mockReturnValueOnce([{ email: mockUser.email }]);
+    const user = await service.find(mockUser.email);
+    expect(user[0].email).toEqual(mockUser.email);
   });
 });

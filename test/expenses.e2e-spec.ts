@@ -5,6 +5,14 @@ import { AppModule } from '../src/app.module';
 
 describe('ExpensesController (e2e)', () => {
   let app: INestApplication;
+  const mockUser = { email: 'random@email.com', password: 'password' };
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const mockExpense = {
+    value: 100,
+    description: 'test',
+    date: yesterday,
+  };
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -16,7 +24,6 @@ describe('ExpensesController (e2e)', () => {
   });
 
   it('/expenses (POST) - success', async () => {
-    const mockUser = { email: 'random@email.com', password: 'password' };
     const res = await request(app.getHttpServer())
       .post('/users/signup')
       .send(mockUser)
@@ -24,14 +31,6 @@ describe('ExpensesController (e2e)', () => {
 
     const cookie = res.get('Set-Cookie');
 
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const mockExpense = {
-      value: 100,
-      description: 'test',
-      date: yesterday,
-    };
     const response = await request(app.getHttpServer())
       .post('/expenses')
       .send(mockExpense)

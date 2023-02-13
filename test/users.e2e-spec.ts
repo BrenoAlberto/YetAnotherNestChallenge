@@ -5,6 +5,7 @@ import { AppModule } from '../src/app.module';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
+  const mockUser = { email: 'random@email.com', password: 'password' };
 
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -16,7 +17,6 @@ describe('UsersController (e2e)', () => {
   });
 
   it('/users/signup (POST) - success', async () => {
-    const mockUser = { email: 'random@email.com', password: 'password' };
     const res = await request(app.getHttpServer())
       .post('/users/signup')
       .send(mockUser)
@@ -28,7 +28,6 @@ describe('UsersController (e2e)', () => {
   });
 
   it('/users/signup (POST) - should not return password', async () => {
-    const mockUser = { email: 'random@email.com', password: 'password' };
     const res = await request(app.getHttpServer())
       .post('/users/signup')
       .send(mockUser)
@@ -39,7 +38,6 @@ describe('UsersController (e2e)', () => {
   });
 
   it('/users/signup (POST) - duplicate email', async () => {
-    const mockUser = { email: 'random@email.com', password: 'password' };
     await request(app.getHttpServer())
       .post('/users/signup')
       .send(mockUser)
@@ -51,7 +49,6 @@ describe('UsersController (e2e)', () => {
   });
 
   it('/users/signin (POST) - success', async () => {
-    const mockUser = { email: 'random@email.com', password: 'password' };
     const res = await request(app.getHttpServer())
       .post('/users/signup')
       .send(mockUser)
@@ -63,7 +60,6 @@ describe('UsersController (e2e)', () => {
   });
 
   it('/users/signin (POST) - should not return password', async () => {
-    const mockUser = { email: 'random@email.com', password: 'password' };
     await request(app.getHttpServer())
       .post('/users/signup')
       .send(mockUser)
