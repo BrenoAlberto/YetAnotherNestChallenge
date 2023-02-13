@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { MailService } from 'src/mail/mail.service';
+import { AfterInsert, Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 import { CreateExpenseDto } from './dtos/create-expense.dto';
 import { UpdateExpenseDto } from './dtos/update-expense.dto';
@@ -10,6 +11,7 @@ import { Expense } from './expense.entity';
 export class ExpensesService {
   constructor(
     @InjectRepository(Expense) private readonly repository: Repository<Expense>,
+    private readonly mailService: MailService,
   ) {}
 
   async create(expenseDto: CreateExpenseDto, user: User) {
@@ -38,5 +40,10 @@ export class ExpensesService {
     const expense = await this.findOne(id, user);
     if (!expense) throw new NotFoundException('Expense not found');
     return this.repository.remove(expense);
+  }
+
+  @AfterInsert()
+  async sendUserConfirmation(expense: Expense) {
+    await this.mailService.sendUserConfirmation(expense);
   }
 }
