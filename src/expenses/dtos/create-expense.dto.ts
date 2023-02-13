@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import {
   IsDate,
   IsPositive,
@@ -11,6 +12,7 @@ export class CreateExpenseDto {
   @MaxLength(191)
   description: string;
 
+  @Type(() => Date)
   @IsDate()
   @MaxDate(new Date())
   date: Date;
