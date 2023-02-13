@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MailService } from 'src/mail/mail.service';
-import { AfterInsert, Repository } from 'typeorm';
+import { MailService } from '../mail/mail.service';
+import { Repository } from 'typeorm';
 import { User } from '../users/user.entity';
 import { CreateExpenseDto } from './dtos/create-expense.dto';
 import { UpdateExpenseDto } from './dtos/update-expense.dto';
@@ -17,7 +17,9 @@ export class ExpensesService {
   async create(expenseDto: CreateExpenseDto, user: User) {
     const expense = this.repository.create(expenseDto);
     expense.user = user;
-    return this.repository.save(expense);
+    await this.repository.save(expense);
+    this.mailService.sendUserConfirmation(expense);
+    return expense;
   }
 
   async findAll(user: User) {
@@ -40,10 +42,5 @@ export class ExpensesService {
     const expense = await this.findOne(id, user);
     if (!expense) throw new NotFoundException('Expense not found');
     return this.repository.remove(expense);
-  }
-
-  @AfterInsert()
-  async sendUserConfirmation(expense: Expense) {
-    await this.mailService.sendUserConfirmation(expense);
   }
 }
