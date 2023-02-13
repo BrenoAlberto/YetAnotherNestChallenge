@@ -42,7 +42,7 @@ describe('UsersController (e2e)', () => {
       .post('/users/signup')
       .send(mockUser)
       .expect(201);
-    await request(app.getHttpServer())
+    return await request(app.getHttpServer())
       .post('/users/signup')
       .send(mockUser)
       .expect(400);
