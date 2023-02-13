@@ -1,7 +1,10 @@
 import { Body, Controller, Post, Session } from '@nestjs/common';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { AuthService } from '../auth/auth.service';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { UserDto } from './dtos/user.dto';
 
+@Serialize(UserDto)
 @Controller('users')
 export class UsersController {
   constructor(private readonly authService: AuthService) {}
