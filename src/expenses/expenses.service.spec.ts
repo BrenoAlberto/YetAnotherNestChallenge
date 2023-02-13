@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from 'src/users/user.entity';
-import { MockType } from 'src/utils/testing/types';
+import { User } from '../users/user.entity';
+import { MockType } from '../utils/testing/types';
 import { Repository } from 'typeorm';
 import { Expense } from './expense.entity';
 import { ExpensesService } from './expenses.service';
