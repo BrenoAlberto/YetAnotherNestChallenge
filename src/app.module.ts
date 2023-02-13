@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { User } from './users/user.entity';
 import { UsersModule } from './users/users.module';
+import { ExpensesModule } from './expenses/expenses.module';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const cookieSession = require('cookie-session');
 
@@ -25,6 +26,7 @@ const cookieSession = require('cookie-session');
       }),
     }),
     UsersModule,
+    ExpensesModule,
   ],
   controllers: [AppController],
   providers: [
