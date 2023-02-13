@@ -1,6 +1,7 @@
 import { User } from '../users/user.entity';
-import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity()
 export class Expense {
   @PrimaryGeneratedColumn()
   id: number;
